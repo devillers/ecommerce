@@ -1,16 +1,31 @@
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.card {
+  @apply p-4 mb-5 rounded-lg border border-none shadow-md;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+.primary-button {
+  @apply text-white rounded bg-bleu py-2 px-4 shadow outline-none hover:bg-amber-400 active:bg-amber-500;
 }
 
-* {
-  box-sizing: border-box;
+.pills {
+  @apply border-[2px] border-bleu px-4 py-2 rounded-lg  text-xs tracking-wide text-bleu;
+}
+
+.inStock {
+  @apply flex items-center justify-center rounded-full py-1 px-2 text-white w-full bg-green-400 animate-pulse text-xs;
+}
+
+.outOfStock {
+  @apply flex items-center justify-center rounded-full py-1 px-2 text-white w-full bg-red-600 animate-pulse text-xs;
+}
+
+.icon {
+  @apply w-4 h-4 mr-2;
+}
+
+.rond {
+  @apply font-comfortaa flex items-center justify-center absolute top-4 left-1 w-4 h-4 ml-1 text-[10px] p-1 font-bold bg-red-600 rounded-full text-white border-[1px];
 }
