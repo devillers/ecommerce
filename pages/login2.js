@@ -1,84 +1,98 @@
-import Head from 'next/head';
 import Link from 'next/link';
+import React, { useEffect } from 'react';
+import { signIn, useSession } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
+import Layout from '../components/Layout';
+import { getError } from '../utils/error';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useRouter } from 'next/router';
 
-function Login() {
+export default function LoginScreen() {
+  const { data: session } = useSession();
+
+  const router = useRouter();
+  const { redirect } = router.query;
+
+  useEffect(() => {
+    if (session?.user) {
+      router.push(redirect || '/');
+    }
+  }, [router, session, redirect]);
+
   const {
     handleSubmit,
     register,
     formState: { errors },
   } = useForm();
-  const submitHandler = ({ email, password }) => {
-    console.log(email, password);
+  const submitHandler = async ({ email, password }) => {
+    try {
+      const result = await signIn('credentials', {
+        redirect: false,
+        email,
+        password,
+      });
+      if (result.error) {
+        toast.error(result.error);
+      }
+    } catch (err) {
+      toast.error(getError(err));
+    }
   };
   return (
-    <div
-      className="mx-auto flex h-screen justify-center flex-col items-center max-w-screen-md font-poppin"
-      onSubmit={handleSubmit(submitHandler)}
-    >
-      <Head>
-        <title>login page</title>
-      </Head>
-      <form className="mb-10">
-        <h1 className="text-xl mb-4">Login page</h1>
+    <Layout title="Login">
+      
+        <ToastContainer position="bottom-center" limit={1} />
+    
+      <form
+        className="mx-auto max-w-screen-md"
+        onSubmit={handleSubmit(submitHandler)}
+      >
+        <h1 className="mb-4 text-xl">Login</h1>
         <div className="mb-4">
-          <label className="text-sm" htmlFor="email">
-            email
-          </label>
+          <label htmlFor="email">Email</label>
           <input
-            className="w-full border-bleu border-b-[1px] outline-none hover:border-amber-400 text-sm text-bleu"
             type="email"
-            id="email"
-            autoFocus
             {...register('email', {
-              required: 'Veuillez indiquer votre adresse mail svp',
+              required: 'Please enter email',
               pattern: {
                 value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/i,
-                message: 'Faites un effort s&apos;il vous plait',
+                message: 'Please enter valid email',
               },
             })}
-          />
+            className="w-full"
+            id="email"
+            autoFocus
+          ></input>
           {errors.email && (
-            <div className="text-red-500 text-sm">{errors.email.message}</div>
+            <div className="text-red-500">{errors.email.message}</div>
           )}
         </div>
-        <div className="mb-8">
-          <label className="text-sm " htmlFor="password">
-            password
-          </label>
+        <div className="mb-4">
+          <label htmlFor="password">Password</label>
           <input
-            className="w-full border-bleu border-b-[1px] outline-none hover:border-amber-400 text-sm text-bleu"
             type="password"
+            {...register('password', {
+              required: 'Please enter password',
+              minLength: { value: 6, message: 'password is more than 5 chars' },
+            })}
+            className="w-full"
             id="password"
             autoFocus
-            {...register('password', {
-              required: 'veuillez choisir un mot de passe consistant',
-              minLength: {
-                value: 6,
-                message:
-                  'votre mot de passe doit contenir au minimum 6 characteres',
-              },
-            })}
-          />
+          ></input>
           {errors.password && (
-            <div className="text-red-500 text-sm">
-              {errors.password.message}
-            </div>
+            <div className="text-red-500 ">{errors.password.message}</div>
           )}
         </div>
-
-        <div className="mb-4">
-          <button className="primary-button w-full">login</button>
+        <div className="mb-4 ">
+          <button className="primary-button">Login</button>
         </div>
-        <div className="mb-4">
-          <p className="text-sm">Don&apos;t have an account ? &nbsp; </p>
-          <Link href="/register">
-            <a className="text-sm text-red-500">Register</a>
-          </Link>
+        <div className="mb-4 ">
+          Don&apos;t have an account? &nbsp;
+          <Link href={`/register?redirect=${redirect || '/'}`}>Register</Link>
         </div>
       </form>
-    </div>
+    </Layout>
   );
 }
 
-export default Login;

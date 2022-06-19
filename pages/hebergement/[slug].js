@@ -13,6 +13,7 @@ import {
   faChampagneGlasses,
   faChild,
   faChildReaching,
+  faEarthAsia,
   faFire,
   faHotTub,
   faKitchenSet,
@@ -91,8 +92,8 @@ export default function HebergemenScreen() {
             />
           </div>
         </div>
-        <div className="grid overflow-hidden grid-cols-4 grid-rows-2 gap-2 grid-flow-row h-auto font-poppin ">
-          <div className="box row-span-2 col-span-2 text-sm ">
+        <div className="grid overflow-hidden md:grid-cols-4 grid-rows-2 gap-2 grid-flow-row h-auto font-poppin ">
+          <div className="row-span-2 col-span-2 text-sm ">
             <h3 className=" text-2xl mt-5 p-4 ">Description</h3>
             <p className="leading-6 text-justify p-4 >">
               {chalet.description}{' '}
@@ -100,7 +101,7 @@ export default function HebergemenScreen() {
           </div>
 
           {/* partie 2 */}
-          <div className="box col-span-1 mt-5 mb-10 p-4 text-xs ">
+          <div className="col-span-1 mt-5 mb-10 p-4 text-xs ">
             <h3 className="mb-5 text-2xl font-poppin ">Amenities</h3>
             <ul>
               <li className="flex items-center mb-2">
@@ -198,7 +199,7 @@ export default function HebergemenScreen() {
           </div>
 
           {/* partie  */}
-          <div className="box col-span-1 mt-20 mb-10 p-4 text-xs">
+          <div className="col-span-1 mt-20 mb-10 p-4 text-xs">
             <ul>
               <li className="flex items-center mb-2">
                 {chalet.carPark ? (
@@ -259,7 +260,7 @@ export default function HebergemenScreen() {
           </div>
 
           {/* partie 4 */}
-          <div className="box col-span-1 p-4 text-xs">
+          <div className="col-span-1 p-4 text-xs">
             <ul>
               <li className="flex items-center mb-2">
                 {chalet.stowart ? (
@@ -275,7 +276,6 @@ export default function HebergemenScreen() {
               <li className="flex items-center mb-2">
                 {chalet.dryer ? (
                   <div className="flex items-center">
-                    {' '}
                     <FontAwesomeIcon className="icon" icon={faShirt} />
                     <span>{chalet.dryer} </span>
                   </div>
@@ -286,8 +286,7 @@ export default function HebergemenScreen() {
               <li className="flex items-center mb-2">
                 {chalet.whashingMachine ? (
                   <div className="flex items-center">
-                    {' '}
-                    <FontAwesomeIcon className="icon" icon={faShirt} />
+                    <FontAwesomeIcon className="icon" icon={faEarthAsia} />
                     <span>{chalet.whashingMachine} </span>
                   </div>
                 ) : (
@@ -338,7 +337,7 @@ export default function HebergemenScreen() {
 
           {/* partie 5 */}
 
-          <div className="box p-4 text-xs font-comfortaa">
+          <div className=" p-4 text-xs font-comfortaa">
             <ul>
               <li className="flex items-center mb-2">
                 {chalet.booking ? (

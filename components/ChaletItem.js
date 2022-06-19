@@ -12,9 +12,7 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 
-
 export default function ChaletItem({ chalet }) {
- 
   return (
     <>
       <Link href={`/hebergement/${chalet.slug}`}>
@@ -63,8 +61,13 @@ export default function ChaletItem({ chalet }) {
                 ) : (
                   ''
                 )}
-
-                <FontAwesomeIcon className="icon" icon={faFire} />
+                <div className=" relative">
+                  {chalet.firePlace ? (
+                    <FontAwesomeIcon className="icon" icon={faFire} />
+                  ) : (
+                    ''
+                  )}
+                </div>
 
                 <div className=" relative">
                   {chalet.capacity ? (

@@ -3,9 +3,12 @@ import Link from 'next/link';
 import React, { useContext, useEffect, useState } from 'react';
 import { Store } from '../utils/Store';
 import { LoginIcon, ShoppingBagIcon } from '@heroicons/react/outline';
+import { useSession } from 'next-auth/react';
+
 import Image from 'next/image';
 
 export default function NavBar({ title }) {
+  const { status, data: session } = useSession();
   const { state } = useContext(Store);
   const { cart } = state;
   const [cartItemsCount, setCartItemsCount] = useState(0);
@@ -43,7 +46,7 @@ export default function NavBar({ title }) {
               hebergement
             </div>
           </Link>
-          <Link href={'/linge'}>
+          <Link href={'/product'}>
             <div className="cursor-pointer flex relative  mr-4 font-poppin text-sm hover:text-bleu">
               location linge
             </div>
@@ -65,9 +68,17 @@ export default function NavBar({ title }) {
             )}
           </div>
 
-          <Link href="/login">
-            <LoginIcon className="h-5 w-5 text-bleu mr-4 " />
-          </Link>
+          {status === 'loading' ? (
+            'Loading'
+          ) : session?.user ? (
+            session.user.name
+          ) : (
+            <Link href="/login">
+              <a className="px-2 cursor-pointer text-sm">
+                <LoginIcon className=" h-5 w-5 text-bleu mr-4 " />
+              </a>
+            </Link>
+          )}
           <Image
             src="/avatar.jpg"
             alt="avatar"

@@ -1,12 +1,15 @@
 import NavBar from './NavBar';
 import Head from 'next/head';
+//import { useSession } from 'next-auth/react';
 import Footer from './Footer';
 import Header from './Header';
 // import Link from 'next/link';
 // import React, { useContext, useEffect, useState } from 'react';
 // import { Store } from '../utils/Store';
 
+
 export default function Layout({ children, title }) {
+  // const { status, data: session } = useSession();
   // const { state } = useContext(Store);
   // const { cart } = state;
   // const [cartItemsCount, setCartItemsCount] = useState(0);
@@ -24,6 +27,8 @@ export default function Layout({ children, title }) {
         <meta name="description" content="location linge de maison" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      
+
       <div className="flex flex-col justify-between min-h-screen">
         <header>
           {/* <nav className="flex h-12 justify-between shadow-sm px-4 items-center">
@@ -41,9 +46,17 @@ export default function Layout({ children, title }) {
                   )}
                 </a>
               </Link>
-              <Link href="/login">
-                <a className="px-2 cursor-pointer">login</a>
-              </Link>
+
+            
+              {status === 'loading' ? (
+                'Loading'
+              ) : session?.user ? (
+                session.user.name
+              ) : (
+                <Link href="/login">
+                  <a className="px-2 cursor-pointer">login</a>
+                </Link>
+              )}
             </div>
           </nav> */}
           <NavBar />
