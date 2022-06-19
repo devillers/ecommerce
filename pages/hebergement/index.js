@@ -1,26 +1,33 @@
+//import Link from 'next/link';
 import ChaletItem from '../../components/ChaletItem';
 import Layout from '../../components/Layout';
-import data from '../../utils/data';
+import db from '../../utils/db';
+import Chalet from '../../models/Chalet';
 
-export default function Hebergement({ chalets }) {
-  console.log(chalets);
-  return (
-    <Layout title="Hebergement">
-      <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ">
-        {data.chalets.map((chalet) => (
-          <ChaletItem chalet={chalet} key={chalet.slug} />
-        ))}
-      </div>
-    </Layout>
-  );
+const Hebergement = ({ chalets }) => (
+  <Layout title="Hebergement">
+    <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ">
+      {chalets.map((chalet) => (
+        <ChaletItem chalet={chalet} key={chalet._id} />
+      ))}
+    </div>
+  </Layout>
+);
+
+export async function getStaticProps() {
+  await db.connect();
+
+  const result = await Chalet.find({});
+  const chalets = result.map((doc) => {
+    const chalet = doc.toObject();
+    chalet._id = chalet._id.toString();
+    return chalet;
+  });
+  return {
+    props: {
+      chalets: JSON.parse(JSON.stringify(chalets)),
+    },
+  };
 }
 
-// export const getStaticProps = async () => {
-//   const res = await fetch({data});
-//   const chalets = await res.json();
-//   return {
-//     props: {
-//       chalets,
-//     },
-//   };
-// };
+export default Hebergement;

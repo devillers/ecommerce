@@ -109,7 +109,7 @@ const data = {
     },
     {
       name: 'Lit Parapluie ',
-      slug: 'chaise-haute',
+      slug: 'lit_parapluie',
       category: 'accessoires',
       image: '/images/parure.jpg',
       price: 24,
