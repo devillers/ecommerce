@@ -30,9 +30,5 @@ env*.local
 
 # vercel
 .vercel
-api
+    
 package-lock.json
-models
-db.js
-user.js
-env
