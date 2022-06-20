@@ -1,6 +1,8 @@
-import data from '../../utils/data';
-import { useRouter } from 'next/router';
+//import data from '../../utils/data';
+//import { useRouter } from 'next/router';
 import Layout from '../../components/Layout';
+import db from '../../utils/db';
+import Chalet from '../../models/Chalet';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 //import Link from 'next/link';
 import Image from 'next/image';
@@ -26,15 +28,42 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
 
-export default function HebergemenScreen() {
-  const { query } = useRouter();
-  const { slug } = query;
+export const getStaticPaths = async () => {
+  await db.connect();
+  const res = await Chalet.find({});
+  const data = await res.json();
 
-  const chalet = data.chalets.find((x) => x.slug === slug);
+  const paths = data.map((chalet) => {
+    return {
+      params: { slug: chalet.slug },
+    };
+  });
+  return {
+    paths: paths,
+    fallback: false,
+  };
+};
+
+export async function getStaticProps(context) {
+  await db.connect();
+  const slug = context.params.slug;
+  const res = (await Chalet.find({})) + slug;
+  const data = await res.json();
+
+  return {
+    props: { chalet: data },
+  };
+}
+
+const HebergemenScreen = ({ chalet }) => {
+  // const { query } = useRouter();
+  // const { slug } = query;
+
+  // const chalet = data.chalets.find((x) => x.slug === slug);
 
   return (
     <>
-      <Layout title="hebergment">
+      <Layout title="hebergement">
         <h1 className="text-3xl pt-4 pb-4 font-poppin ">{chalet.name} </h1>
         <div className="grid overflow-hidden gap-1 md:grid-cols-2 grid-rows-2 grid-flow-row lg:grid-cols-4">
           <div className="relative box row-span-2 col-span-2 h-96  ">
@@ -378,4 +407,9 @@ export default function HebergemenScreen() {
       </Layout>
     </>
   );
-}
+};
+
+export default HebergemenScreen;
+
+
+

@@ -15,7 +15,7 @@ import Link from 'next/link';
 export default function ChaletItem({ chalet }) {
   return (
     <>
-      <Link href={`/hebergement/${chalet.slug}`}>
+      <Link href={`/hebergement/${chalet.slug}`} key={chalet.slug}>
         <div className="card w-full font-poppin">
           <div className="relative h-56 ">
             <Image

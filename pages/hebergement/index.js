@@ -17,8 +17,8 @@ const Hebergement = ({ chalets }) => (
 export async function getStaticProps() {
   await db.connect();
 
-  const result = await Chalet.find({});
-  const chalets = result.map((doc) => {
+  const res = await Chalet.find({});
+  const chalets = res.map((doc) => {
     const chalet = doc.toObject();
     chalet._id = chalet._id.toString();
     return chalet;
