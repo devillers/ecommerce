@@ -28,11 +28,15 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
 
+/*
+salut matt je t avouerai avoir tout tenté et n'arrive toujours pas à recuperer mon slug. 
+Ma cerveau n'y arrive plus. Ton aide serait la bienvenue  :)
+*/
+
 export const getStaticPaths = async () => {
   await db.connect();
   const res = await Chalet.find({});
   const data = await res.json();
-
   const paths = data.map((chalet) => {
     return {
       params: { slug: chalet.slug },
@@ -49,16 +53,14 @@ export async function getStaticProps(context) {
   const slug = context.params.slug;
   const res = (await Chalet.find({})) + slug;
   const data = await res.json();
-
   return {
     props: { chalet: data },
   };
 }
 
-const HebergemenScreen = ({ chalet }) => {
+const HebergementScreen = ({ chalet }) => {
   // const { query } = useRouter();
   // const { slug } = query;
-
   // const chalet = data.chalets.find((x) => x.slug === slug);
 
   return (
@@ -409,7 +411,4 @@ const HebergemenScreen = ({ chalet }) => {
   );
 };
 
-export default HebergemenScreen;
-
-
-
+export default HebergementScreen;
