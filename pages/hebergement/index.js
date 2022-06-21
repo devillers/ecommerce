@@ -19,13 +19,13 @@ export async function getStaticProps() {
 
   const res = await Chalet.find({});
   const chalets = res.map((doc) => {
-    const chalet = doc.toObject();
-    chalet._id = chalet._id.toString();
-    return chalet;
+    return doc.toObject({ transform: (doc, ret) => {
+      ret._id = doc._id.toString();
+    }})
   });
   return {
     props: {
-      chalets: JSON.parse(JSON.stringify(chalets)),
+      chalets,
     },
   };
 }
